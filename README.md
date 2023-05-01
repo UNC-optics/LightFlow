@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="image.png" alt="LightFlow Logo" width="100%" />
+  <img src="logo.png" alt="LightFlow Logo" width="100%" />
 </p>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
