@@ -10,8 +10,6 @@ import tensorflow as tf
 import numpy as np
 
 
-
-# TODO not compatible with the data structure of GO
 class Intensity(tf.keras.layers.Layer):
     def __init__(self, time_average = True, name = 'Intensity'):
         super(Intensity, self).__init__(name = name)
