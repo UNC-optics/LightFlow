@@ -1,44 +1,25 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Sep  9 16:12:13 2022
-
-@author: hoss
-"""
-
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Aug 29 11:17:46 2022
-
-@author: hoss
-"""
-
-from models.SGD import SGD
+from models.SGD import CGH_SGDSolver
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
 from time import time
-from utils.np_utils import normalize_energy
 import tensorflow as tf
-from utils.np_utils import zeropad_to_1080p
 
-#% load target image
-multiplane = True
-
+#%% Load data
 images = np.stack([np.mean(np.array(Image.open('samples/{}.jpg'.format(i))), axis = -1) for i in ['dog', 'bird']] , axis=-1)[None, ...]
 
 #%% specify setup
 num_frames = 32
-sgd = SGD(device = 'DMD',
-          setup = 'Nearfield',
-          shape = (num_frames,) + images.shape[1:],
-          quantization = 16,
-          z = [200e-3, 220e-3],
-          wavelength = 660e-9,
-          ps = 7.56e-6,
-          method = 'asm',
-          unfiltered = 0)
+device = 'DMD'
+physics = {'wavelength': 660e-9,
+           'pixel_size': [4.5e-6]*2}
+sgd = CGH_SGDSolver(physics = physics,
+                      device = device,
+                      shape = (num_frames,) + images.shape[1:],
+                      quantization = 4,
+                      z = [130e-3, 150e-3],
+                      method = 'asm',
+                      unfiltered = 0)
 
 #%%
 tf.keras.utils.plot_model(
