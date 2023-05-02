@@ -1,15 +1,14 @@
 from time import time
-from layers.parameterized import SLM, RandomDiffuser
-from layers.propagation import Propagation, Lens
-from layers.misc import Intensity
+from ..layers.parameterized import SLM, RandomDiffuser
+from ..layers.propagation import Propagation, Lens
+from ..layers.misc import Intensity, LightCompatible
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Lambda
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
-from losses import accuracy
+from ..ml.losses import accuracy
 from PIL import Image
-from layers.misc import LightCompatible
 
 #%%
 class CGH_SGDSolver:

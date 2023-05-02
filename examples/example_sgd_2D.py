@@ -4,7 +4,7 @@
 Created on Mon Aug 29 11:17:46 2022
 @author: hoss
 """
-from models.SGD import CGH_SGDSolver
+from lightflow.optical_setup import cgh
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
@@ -20,7 +20,7 @@ images = np.mean(np.array(Image.open("samples/USAF_Resolution_Chart.jpg")), axis
 num_frames = 1
 device = "DMD"
 physics = {"wavelength": 660e-9, "pixel_size": [4.5e-6] * 2}
-sgd = CGH_SGDSolver(
+sgd = cgh.CGH_SGDSolver(
     physics=physics,
     device=device,
     shape=(num_frames,) + images.shape[1:],

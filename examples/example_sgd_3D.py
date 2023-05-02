@@ -1,4 +1,4 @@
-from models.SGD import CGH_SGDSolver
+from lightflow.optical_setup import cgh
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
@@ -18,7 +18,7 @@ images = np.stack(
 num_frames = 32
 device = "DMD"
 physics = {"wavelength": 660e-9, "pixel_size": [4.5e-6] * 2}
-sgd = CGH_SGDSolver(
+sgd = cgh.CGH_SGDSolver(
     physics=physics,
     device=device,
     shape=(num_frames,) + images.shape[1:],
