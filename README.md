@@ -15,19 +15,24 @@ LightFlow is an open-source framework for optics and photonics simulations, focu
 
 ## Installation
 
-_Coming soon._
+This package is mainly intented for use on google colab, therefore the requirements and dependencies of the package are limited to the packages that are not available in google colab. However, if you successully install the Tensorflow with GPU support on your local machine this package will work properly.
+Full support for local operations will be supported soon. Currently there are issues with the installation of Tensorflow with GPU server therefore we hesitate to officially support local operation.
+
+To install LightFlow on a google colab machine simply run the following command:
+
+!pip install git+https://github.com/UNC-optics/LightFlow.git
 
 ## Getting Started
 
-_Coming soon. Examples and tutorials on how to use LightFlow will be provided._
+We highly encourage you to get started with the tutorials and the examples provided in the `examples` folder. Currently the examples are focused on fundamentals of optics and CGH applications.
 
 ## Documentation
 
-_Coming soon. Detailed documentation on LightFlow's API and functionalities will be provided._
+_Coming soon._
 
 ## Examples
 
-_Coming soon. Example notebooks and projects using LightFlow for various applications will be provided._
+_Coming soon. Please see the examples folder, more to come._
 
 ## Contributing
 
