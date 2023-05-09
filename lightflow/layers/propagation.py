@@ -7,6 +7,11 @@ Created on Fri May 20 13:18:31 2022
 import tensorflow as tf
 import numpy as np
 
+def fft_frequency(n, d=1.0):
+    val = 1.0 / (n * d)
+    results = tf.range(0, n, dtype=tf.float32)
+    results = tf.where(results <= n // 2, results, results - n)
+    return results * val
 
 class Propagation(tf.keras.layers.Layer):
     def __init__(self, physics, z, method, unfiltered=0, name="Propagation"):
@@ -45,16 +50,21 @@ class Propagation(tf.keras.layers.Layer):
         """
         super(Propagation, self).__init__(name=name)
 
-        self.method = method
+        self.method = method.lower()
+        assert self.method in ['asm','fresnel']
         # this is for 3D compatibility in the future
         if isinstance(z, (list, tuple)):
             self.Z = z
         else:
             self.Z = [z]
+        
+        if isinstance(physics["pixel_size"], (list, tuple)):
+            self.ps = physics["pixel_size"]
+        else:
+            self.ps = [physics["pixel_size"]] * 2
 
         self.physics = physics
         self.wavelength = physics["wavelength"]
-        self.ps = physics["pixel_size"]
 
         self.unfiltered = unfiltered
 
@@ -92,17 +102,18 @@ class Propagation(tf.keras.layers.Layer):
 
     def __get_freqMeshGrid(self):
         if self.unfiltered:
-            fx = np.fft.fftshift(
-                np.fft.fftfreq(self.shape[-2] * self.unfiltered, d=self.ps[0])
+            fx = tf.signal.fftshift(
+                fft_frequency(self.shape[-2] * self.unfiltered, d=self.ps[0])
             )
-            fy = np.fft.fftshift(
-                np.fft.fftfreq(self.shape[-3] * self.unfiltered, d=self.ps[1])
+            fy = tf.signal.fftshift(
+                fft_frequency(self.shape[-3] * self.unfiltered, d=self.ps[1])
             )
-            self.big_fxx, self.big_fyy = np.meshgrid(fx, fy)
-
-        fx = np.fft.fftshift(np.fft.fftfreq(self.shape[-2], d=self.ps[0]))
-        fy = np.fft.fftshift(np.fft.fftfreq(self.shape[-3], d=self.ps[1]))
-        self.short_fxx, self.short_fyy = np.meshgrid(fx, fy)
+            self.big_fxx, self.big_fyy = tf.meshgrid(fx, fy)
+        print(type(self.ps))
+        print(type(self.shape))
+        fx = tf.signal.fftshift(fft_frequency(self.shape[-2], d=self.ps[0]))
+        fy = tf.signal.fftshift(fft_frequency(self.shape[-3], d=self.ps[1]))
+        self.short_fxx, self.short_fyy = tf.meshgrid(fx, fy)
 
     def get_ASM(self):
         H = []
@@ -112,11 +123,13 @@ class Propagation(tf.keras.layers.Layer):
         )
 
         # Calculate the propagating and the evanescent (complex) modes
-        tmp = np.sqrt(np.abs(argument))
-        kz = np.where(argument >= 0, tmp, 1j * tmp)
+        tmp = tf.sqrt(tf.abs(argument))
+        # kz = tf.where(argument >= 0, tmp, 1j * tmp)
+        kz = tf.where(argument >= 0, tf.complex(tmp, 0.), tf.complex(0., tmp))
+
 
         for z in self.Z:
-            H.append(np.exp(1j * kz * z).astype(np.complex64))
+            H.append(tf.cast(tf.exp(1j * kz * z), tf.complex64))
         return H
 
     def get_Fresnel(self):
@@ -124,9 +137,9 @@ class Propagation(tf.keras.layers.Layer):
 
         fx = self.short_fxx / self.ps[0] / self.shape[-2]
         fy = self.short_fyy / self.ps[1] / self.shape[-3]
-        argument = -1j * np.pi * self.wavelength * (fx**2 + fy**2)
+        argument = tf.complex(0., -1 * np.pi * self.wavelength * (fx**2 + fy**2))
         for z in self.Z:
-            H.append(np.exp(argument * z).astype(np.complex64))
+            H.append(tf.cast(tf.exp(argument * z), tf.complex64))
         return H
 
     def build(self, input_shape):

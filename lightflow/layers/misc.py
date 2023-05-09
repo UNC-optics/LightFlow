@@ -8,7 +8,7 @@ Created on Mon Aug 29 11:37:03 2022
 
 import tensorflow as tf
 import numpy as np
-
+from tensorflow.keras.layers import Layer
 
 class Intensity(tf.keras.layers.Layer):
     def __init__(self, time_average=True, name="Intensity"):
@@ -94,7 +94,7 @@ class LightCompatible(tf.keras.layers.Layer):
     def __init__(self, list_compat=None, dims_compat=-1, name="GOCompatible"):
         """
         Make tensors compatible with GradientOptics layers.
-
+        
         Parameters
         ----------
         list_compat : TYPE, optional
@@ -103,11 +103,11 @@ class LightCompatible(tf.keras.layers.Layer):
             DESCRIPTION. The default is -1.
         name : TYPE, optional
             DESCRIPTION. The default is 'GOCompatible'.
-
+        
         Returns
         -------
         None.
-
+        
         """
         assert list_compat in [
             "amplitude",
@@ -129,7 +129,6 @@ class LightCompatible(tf.keras.layers.Layer):
 
     def build(self, input_shape):
         self.is_list = isinstance(input_shape, list)
-
         pass
 
     def call(self, inputs):
