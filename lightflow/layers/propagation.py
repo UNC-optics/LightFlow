@@ -109,8 +109,7 @@ class Propagation(tf.keras.layers.Layer):
                 fft_frequency(self.shape[-3] * self.unfiltered, d=self.ps[1])
             )
             self.big_fxx, self.big_fyy = tf.meshgrid(fx, fy)
-        print(type(self.ps))
-        print(type(self.shape))
+            
         fx = tf.signal.fftshift(fft_frequency(self.shape[-2], d=self.ps[0]))
         fy = tf.signal.fftshift(fft_frequency(self.shape[-3], d=self.ps[1]))
         self.short_fxx, self.short_fyy = tf.meshgrid(fx, fy)
@@ -192,9 +191,10 @@ class Propagation(tf.keras.layers.Layer):
 
 
 class Lens(tf.keras.layers.Layer):
-    def __init__(self, physics, f, name="Propagation"):
+    def __init__(self, physics, f, name="Lens"):
         super(Lens, self).__init__(name=name)
         self.physics = physics
+        self.f = f
 
     def build(self, input_shape):
         shape = input_shape[0]
