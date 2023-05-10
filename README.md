@@ -34,6 +34,7 @@ _Coming soon._
 
 1. [Yann's double slit experiment](https://colab.research.google.com/drive/1hv2mVQE49qdbyP7WC5IrUHcDBT0nO8HC?usp=sharing)
 2. [Introduction to Computer Generated Holography](https://colab.research.google.com/drive/1CNKg6Cg2SEkMq_lDWU556laji31ZL1bL?usp=sharing)
+3. [GUI demo](https://colab.research.google.com/drive/1XPWRk-6d6i3kdAfgEWOpkmXxBmQAuwth?usp=sharing)
 
 ## Contributing
 
