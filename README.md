@@ -22,13 +22,22 @@ To install LightFlow on a google colab machine simply run the following command:
 `!pip install git+https://github.com/UNC-optics/LightFlow.git`
 
 ### Local installation:
-For local installation you firt need to install your [NVIDIA drivers](https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/index.html) and [Tensorflow](https://www.tensorflow.org/install/pip). It is highly recommended to install tensorflow with GPU support for better speed.
+First need to install your [NVIDIA drivers](https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/index.html) and [Tensorflow](https://www.tensorflow.org/install/pip). It is highly recommended to install tensorflow with GPU support for better speed.
 The steps for the installation can be roughly described as follows:
 1. Install NVIDIA drivers
 2. Install Anaconda
 3. Create a new environment for lightflow: `conda create --name lf python=3.9 matplotlib`
 4. Install tensorflow with CUDA and CUDNN support
-5. Install LightFlow: `pip install git+https://github.com/UNC-optics/LightFlow.git`
+5. Install LightFlow:
+If you only want to use the package's current functionality and don't want to make changes to the code, you can follow these instructions:
+`pip install git+https://github.com/UNC-optics/LightFlow.git`
+
+If you hope to make changes to the base code you first need to clone the repository to your PC. Make sure you first move to a directory you want your package to be installed from, then clone the package:
+`git clone https://github.com/UNC-optics/LightFlow.git`
+next, move to the directory of the package:
+`cd LightFlow`
+Now install the package:
+`pip install -e .`
 
 
 ## Getting Started
