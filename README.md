@@ -14,13 +14,22 @@ LightFlow is an open-source framework for optics and photonics simulations, focu
 - Suitable for educational and research purposes in the fields of optics and photonics
 
 ## Installation
-
 This package is mainly intented for use on google colab, therefore the requirements and dependencies of the package are limited to the packages that are not available in google colab. However, if you successully install the Tensorflow with GPU support on your local machine this package will work properly.
-Full support for local operations will be supported soon. Currently there are issues with the installation of Tensorflow with GPU server therefore we hesitate to officially support local operation.
 
+### Google Colab installation:
 To install LightFlow on a google colab machine simply run the following command:
 
-!pip install git+https://github.com/UNC-optics/LightFlow.git
+`!pip install git+https://github.com/UNC-optics/LightFlow.git`
+
+### Local installation:
+For local installation you firt need to install your [NVIDIA drivers](https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/index.html) and [Tensorflow](https://www.tensorflow.org/install/pip). It is highly recommended to install tensorflow with GPU support for better speed.
+The steps for the installation can be roughly described as follows:
+1. Install NVIDIA drivers
+2. Install Anaconda
+3. Create a new environment for lightflow: `conda create --name lf python=3.9 matplotlib`
+4. Install tensorflow with CUDA and CUDNN support
+5. Install LightFlow: `pip install git+https://github.com/UNC-optics/LightFlow.git`
+
 
 ## Getting Started
 
